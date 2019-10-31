@@ -28,19 +28,28 @@ public class Pawn extends AbstractPiece {
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> availableMoves = new ArrayList<>();
-        if (this.colour == WHITE && noPieceInFront(from, board)) {
-            if (from.getRow() == W_START_POS) {
-                availableMoves.add(new Move(from, from.plus(W_MOVE_FWD_2, 0)));
+        if (hasSpaceToMove(from, board) && noPieceInFront(from, board)) {
+            if (this.colour == WHITE) {
+                if (from.getRow() == W_START_POS) {
+                    availableMoves.add(new Move(from, from.plus(W_MOVE_FWD_2, 0)));
+                }
+                availableMoves.add(new Move(from, from.plus(W_MOVE_FWD, 0)));
             }
-            availableMoves.add(new Move(from, from.plus(W_MOVE_FWD, 0)));
-        }
-        if (this.colour == BLACK && noPieceInFront(from, board)) {
-            if (from.getRow() == B_START_POS) {
-                availableMoves.add(new Move(from, from.plus(B_MOVE_FWD_2, 0)));
+            if (this.colour == BLACK) {
+                if (from.getRow() == B_START_POS) {
+                    availableMoves.add(new Move(from, from.plus(B_MOVE_FWD_2, 0)));
+                }
+                availableMoves.add(new Move(from, from.plus(B_MOVE_FWD, 0)));
             }
-            availableMoves.add(new Move(from, from.plus(B_MOVE_FWD, 0)));
         }
         return availableMoves;
+    }
+
+    private boolean hasSpaceToMove(Coordinates from, Board board) {
+        if (this.colour == WHITE) {
+            return from.getRow() > 0;
+        }
+        return from.getRow() < 7;
     }
 
     private boolean noPieceInFront(Coordinates from, Board board) {
