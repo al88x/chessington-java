@@ -13,7 +13,7 @@ import static training.chessington.model.PlayerColour.WHITE;
 
 public class Pawn extends AbstractPiece {
 
-    
+
     private static final int W_START_POS = 6;
     private static final int B_START_POS = 1;
     private static final int SAME_COL = 0;
