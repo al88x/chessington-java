@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Bishop extends AbstractPiece {
     public Bishop(PlayerColour colour) {
-        super(PieceType.BISHOP, colour);
+        super(PieceType.BISHOP, colour, true);
     }
 
     @Override

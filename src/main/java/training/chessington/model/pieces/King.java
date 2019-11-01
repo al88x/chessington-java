@@ -10,7 +10,7 @@ import java.util.List;
 
 public class King extends AbstractPiece {
     public King(PlayerColour colour) {
-        super(PieceType.KING, colour);
+        super(PieceType.KING, colour, true);
     }
 
     @Override

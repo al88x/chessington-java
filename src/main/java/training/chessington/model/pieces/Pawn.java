@@ -20,7 +20,7 @@ public class Pawn extends AbstractPiece {
 
 
     public Pawn(PlayerColour colour) {
-        super(Piece.PieceType.PAWN, colour);
+        super(Piece.PieceType.PAWN, colour, false);
     }
 
     @Override

@@ -11,11 +11,6 @@ public final class Coordinates {
         this.col = col;
     }
 
-    public static boolean isOutOfBounds(Coordinates from, Integer[] square) {
-        return from.getRow() + square[0] < 0 || from.getRow() + square[0] > 7 ||
-                from.getCol() + square[1] < 0 || from.getCol() + square[1] > 7;
-    }
-
     public int getRow() {
         return row;
     }
@@ -45,6 +40,10 @@ public final class Coordinates {
 
     public Coordinates plus(int rowDiff, int colDiff) {
         return new Coordinates(row + rowDiff, col + colDiff);
+    }
+
+    public Coordinates plus(Integer[] diff) {
+        return new Coordinates(row + diff[0], col + diff[1]);
     }
 
     public boolean isOutOfBounds() {
