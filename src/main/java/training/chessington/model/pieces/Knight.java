@@ -15,7 +15,7 @@ import static training.chessington.model.Board.isOutOfBounds;
 public class Knight extends AbstractPiece {
 
 
-    public Integer[][] possibleMoves;
+    private Integer[][] possibleMoves;
 
     public Knight(PlayerColour colour) {
         super(PieceType.KNIGHT, colour, true);

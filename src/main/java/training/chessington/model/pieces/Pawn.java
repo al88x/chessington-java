@@ -19,6 +19,7 @@ public class Pawn extends AbstractPiece {
     private static final int SAME_COL = 0;
 
 
+
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour, false);
     }
