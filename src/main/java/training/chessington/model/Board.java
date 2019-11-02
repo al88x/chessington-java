@@ -37,9 +37,9 @@ public class Board {
         board[rowIndex][7] = new Rook(colour);
     }
 
-    public static boolean isOutOfBounds(Coordinates proposedCoord) {
-        return proposedCoord.getRow() < 0 || proposedCoord.getRow() > 7 ||
-                proposedCoord.getCol() < 0 || proposedCoord.getCol() > 7;
+    public static boolean isWithinBoardLimits(Coordinates proposedCoords) {
+        return proposedCoords.getRow() >= 0 && proposedCoords.getRow() <= 7 &&
+                proposedCoords.getCol() >= 0 && proposedCoords.getCol() <= 7;
     }
 
     public Piece get(Coordinates coords) {

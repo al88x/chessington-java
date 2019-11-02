@@ -11,6 +11,11 @@ public final class Coordinates {
         this.col = col;
     }
 
+    public Coordinates(Integer[] coords){
+        this.row = coords[0];
+        this.col = coords[1];
+    }
+
     public int getRow() {
         return row;
     }

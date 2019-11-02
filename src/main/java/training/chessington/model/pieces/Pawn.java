@@ -8,6 +8,7 @@ import training.chessington.model.PlayerColour;
 import java.util.ArrayList;
 import java.util.List;
 
+import static training.chessington.model.Board.isWithinBoardLimits;
 import static training.chessington.model.PlayerColour.BLACK;
 import static training.chessington.model.PlayerColour.WHITE;
 
@@ -16,84 +17,72 @@ public class Pawn extends AbstractPiece {
 
     private static final int W_START_POS = 6;
     private static final int B_START_POS = 1;
-    private static final int SAME_COL = 0;
-
+    private Integer[][] possibleWalkingMoves;
+    private Integer[][] possibleEnemyTakeOverMoves;
 
 
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour, false);
+        possibleWalkingMoves = new Integer[][]{movePawnForward(1), movePawnForward(2)};
+        possibleEnemyTakeOverMoves = new Integer[][] {movePawnForwardLeft(), movePawnForwardRight()};
     }
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> availableMoves = new ArrayList<>();
+        Coordinates proposedSquareOneStepForward = from.plus(possibleWalkingMoves[0]);
+        Coordinates proposedSquareTwoStepsForward = from.plus(possibleWalkingMoves[1]);
 
-        if (hasSpaceToMove(1, from, board)) {
-            if (isPresentEnemyPawnDiagonallyToRight(from, board)) {
-                availableMoves.add(new Move(from, from.plus(movePawnForward(1), movePawnRight(1))));
+        if(isWithinBoardLimits(proposedSquareOneStepForward) && isSquareEmpty(proposedSquareOneStepForward, board)){
+            availableMoves.add(new Move(from, proposedSquareOneStepForward));
+
+            if(isStartPosition(from) && isSquareEmpty(proposedSquareTwoStepsForward, board)){
+                availableMoves.add(new Move(from, proposedSquareTwoStepsForward));
             }
-            if (isPresentEnemyPawnDiagonallyToLeft(from, board)) {
-                availableMoves.add(new Move(from, from.plus(movePawnForward(1), movePawnLeft(1))));
-            }
-            if (noPieceInFront(from, board)) {
-                availableMoves.add(new Move(from, from.plus(movePawnForward(1), SAME_COL)));
-            }
-            if (isStartPosition(from, board) && hasSpaceToMove(2, from, board)) {
-                availableMoves.add(new Move(from, from.plus(movePawnForward(2), SAME_COL)));
+        }
+        for(Integer[] possibleMove : possibleEnemyTakeOverMoves){
+            if(isWithinBoardLimits(from.plus(possibleMove)) && isSquareOccupiedByEnemy(from.plus(possibleMove), board)){
+                availableMoves.add((new Move(from, from.plus(possibleMove))));
             }
         }
         return availableMoves;
     }
 
-    private int movePawnLeft(int squares) {
-        if (this.colour == WHITE) {
-            return -squares;
+    private boolean isSquareOccupiedByEnemy(Coordinates squareCoords, Board board) {
+        if(board.get(squareCoords) == null){
+            return false;
         }
-        return squares;
+        return board.get(squareCoords).getColour() != this.colour;
     }
 
-    private int movePawnRight(int squares) {
+    private boolean isSquareEmpty(Coordinates squareCoords, Board board) {
+        return board.get(squareCoords) == null;
+    }
+
+    private Integer[] movePawnForwardLeft() {
         if (this.colour == WHITE) {
-            return squares;
+            return new Integer[]{-1,-1};
         }
-        return -squares;
+        return new Integer[]{1,1};
     }
 
 
-    private boolean isStartPosition(Coordinates from, Board board) {
+    private Integer[] movePawnForwardRight() {
+        if (this.colour == WHITE) {
+            return new Integer[]{-1,1};
+        }
+        return new Integer[]{1,-1};
+    }
+
+    private Integer[] movePawnForward(int numberOfSquares) {
+        if (this.colour == WHITE) {
+            return new Integer[]{-numberOfSquares,0};
+        }
+        return new Integer[]{numberOfSquares,0};
+    }
+
+    private boolean isStartPosition(Coordinates from) {
         return from.getRow() == W_START_POS && this.colour == WHITE ||
                 from.getRow() == B_START_POS && this.colour == BLACK;
-    }
-
-    private int movePawnForward(int i) {
-        if (this.colour == WHITE) {
-            return -i;
-        }
-        return i;
-    }
-
-    private boolean isPresentEnemyPawnDiagonallyToLeft(Coordinates from, Board board) {
-        if (from.getCol() == 0 && this.colour == WHITE || from.getCol() == 7 && this.colour == BLACK) {
-            return false;
-        }
-        Piece piece = board.get(from.plus(movePawnForward(1), movePawnLeft(1)));
-        return piece != null && piece.getColour() != this.colour;
-    }
-
-    private boolean isPresentEnemyPawnDiagonallyToRight(Coordinates from, Board board) {
-        if (from.getCol() == 7 && this.colour == WHITE || from.getCol() == 0 && this.colour == BLACK) {
-            return false;
-        }
-        Piece piece = board.get(from.plus(movePawnForward(1), movePawnRight(1)));
-        return piece != null && piece.getColour() != this.colour;
-    }
-
-
-    private boolean hasSpaceToMove(int squares, Coordinates from, Board board) {
-        return from.getRow() > 0 && from.getRow() < 7 && board.get(from.plus(movePawnForward(1), SAME_COL)) == null;
-    }
-
-    private boolean noPieceInFront(Coordinates from, Board board) {
-        return board.get(from.plus(movePawnForward(1), SAME_COL)) == null;
     }
 }

@@ -8,7 +8,7 @@ import training.chessington.model.PlayerColour;
 import java.util.ArrayList;
 import java.util.List;
 
-import static training.chessington.model.Board.isOutOfBounds;
+import static training.chessington.model.Board.isWithinBoardLimits;
 
 
 public abstract class AbstractPiece implements Piece {
@@ -31,7 +31,7 @@ public abstract class AbstractPiece implements Piece {
         for (Direction direction : availableDirections) {
             Coordinates proposedCoordinate = from;
             moveOneSquare = false;
-            while (!isOutOfBounds((proposedCoordinate) = proposedCoordinate.plus(direction.getDifference())) && !moveOneSquare) {
+            while (isWithinBoardLimits((proposedCoordinate) = proposedCoordinate.plus(direction.getDifference())) && !moveOneSquare) {
                 if (board.get(proposedCoordinate) != null && this.colour == board.get(proposedCoordinate).getColour()) {
                     break;
                 }

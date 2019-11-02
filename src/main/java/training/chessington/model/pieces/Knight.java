@@ -5,12 +5,11 @@ import training.chessington.model.Coordinates;
 import training.chessington.model.Move;
 import training.chessington.model.PlayerColour;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static training.chessington.model.Board.isOutOfBounds;
+import static training.chessington.model.Board.isWithinBoardLimits;
 
 public class Knight extends AbstractPiece {
 
@@ -26,15 +25,15 @@ public class Knight extends AbstractPiece {
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         return Arrays.stream(possibleMoves)
-                .filter(square -> !isOutOfBounds(from.plus(square)) && !hasPieceOfSameColour(board, from, square))
+                .filter(square -> isWithinBoardLimits(from.plus(square)) && isEmptyOrEnemyOnSquare(board, from, square))
                 .map(square -> new Move(from, from.plus(square)))
                 .collect(Collectors.toList());
     }
 
-    private boolean hasPieceOfSameColour(Board board, Coordinates from, Integer[] square) {
+    private boolean isEmptyOrEnemyOnSquare(Board board, Coordinates from, Integer[] square) {
         if (board.get(from.plus(square)) == null) {
-            return false;
+            return true;
         }
-        return this.colour == board.get(from.plus(square)).getColour();
+        return this.colour != board.get(from.plus(square)).getColour();
     }
 }
