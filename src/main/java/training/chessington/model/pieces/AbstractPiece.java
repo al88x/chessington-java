@@ -27,9 +27,10 @@ public abstract class AbstractPiece implements Piece {
 
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<>();
-        boolean moveOneSquare = false;
+        boolean moveOneSquare;
         for (Direction direction : availableDirections) {
             Coordinates proposedCoordinate = from;
+            moveOneSquare = false;
             while (!isOutOfBounds((proposedCoordinate) = proposedCoordinate.plus(direction.getDifference())) && !moveOneSquare) {
                 if (board.get(proposedCoordinate) != null && this.colour == board.get(proposedCoordinate).getColour()) {
                     break;

@@ -10,11 +10,10 @@ import java.util.List;
 
 public class Bishop extends AbstractPiece {
     public Bishop(PlayerColour colour) {
-        super(PieceType.BISHOP, colour, true);
-    }
-
-    @Override
-    public List<Move> getAllowedMoves(Coordinates from, Board board) {
-        return new ArrayList<>();
+        super(PieceType.BISHOP, colour, false);
+        availableDirections.add(Direction.NORTH_WEST);
+        availableDirections.add(Direction.SOUTH_WEST);
+        availableDirections.add(Direction.SOUTH_EAST);
+        availableDirections.add(Direction.NORTH_EAST);
     }
 }
