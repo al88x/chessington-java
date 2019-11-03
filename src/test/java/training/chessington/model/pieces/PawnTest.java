@@ -288,15 +288,15 @@ public class PawnTest {
         //Arrange
         Board board = Board.empty();
         Piece whitePawn = new Pawn(PlayerColour.WHITE);
-        Piece blackPawn = new Pawn(PlayerColour.BLACK);
         Coordinates whitePawnFromCoords = new Coordinates(6, 1);
         Coordinates whitePawnToCoords = new Coordinates(4, 1);
+        board.placePiece(whitePawnFromCoords, whitePawn);
 
+        Piece blackPawn = new Pawn(PlayerColour.BLACK);
         Coordinates blackPawnCoords = new Coordinates(4,2);
         board.placePiece(blackPawnCoords, blackPawn);
 
-        board.placePiece(whitePawnFromCoords, whitePawn);
-        board.placePiece(whitePawnToCoords, whitePawn);
+        board.move(whitePawnFromCoords, whitePawnToCoords);
 
         //Act
         List<Move> moves = blackPawn.getAllowedMoves(blackPawnCoords, board);
@@ -304,5 +304,28 @@ public class PawnTest {
         //Assert
         assertThat(moves).contains(new Move(blackPawnCoords, blackPawnCoords.plus(1,0)));
         assertThat(moves).contains(new Move(blackPawnCoords, blackPawnCoords.plus(1,-1)));
+    }
+
+    @Test
+    public void blackPieceEnPassantTakeOver(){
+        //Arrange
+        Board board = Board.empty();
+        Piece whitePawn = new Pawn(PlayerColour.WHITE);
+        Coordinates whitePawnFromCoords = new Coordinates(6, 1);
+        Coordinates whitePawnToCoords = new Coordinates(4, 1);
+        board.placePiece(whitePawnFromCoords, whitePawn);
+
+        Piece blackPawn = new Pawn(PlayerColour.BLACK);
+        Coordinates blackPawnCoords = new Coordinates(4,2);
+        board.placePiece(blackPawnCoords, blackPawn);
+
+        board.move(whitePawnFromCoords, whitePawnToCoords);
+        board.move(blackPawnCoords,blackPawnCoords.plus(1,-1));
+
+        //Act
+        List<Move> moves = blackPawn.getAllowedMoves(blackPawnCoords, board);
+
+        //Assert
+        assertThat(board.get(whitePawnFromCoords)).isEqualTo(null);
     }
 }
