@@ -17,6 +17,7 @@ public abstract class AbstractPiece implements Piece {
     protected final PlayerColour colour;
     protected List<Direction> availableDirections;
     protected final boolean limitedToOneSquareMove;
+    protected Coordinates previousPosition;
 
     protected AbstractPiece(Piece.PieceType type, PlayerColour colour, boolean limitedToOneSquareMove) {
         this.type = type;
@@ -59,5 +60,15 @@ public abstract class AbstractPiece implements Piece {
     @Override
     public String toString() {
         return colour.toString() + " " + type.toString();
+    }
+
+    @Override
+    public Coordinates getPreviousPosition() {
+        return previousPosition;
+    }
+
+    @Override
+    public void setPreviousPosition(Coordinates from) {
+        this.previousPosition = from;
     }
 }

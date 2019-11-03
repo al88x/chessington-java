@@ -282,4 +282,27 @@ public class PawnTest {
         Coordinates otherDiagonal = pawnCoords.plus(1, -1);
         assertThat(moves).doesNotContain(new Move(pawnCoords, otherDiagonal));
     }
+
+    @Test
+    public void whitePawnFirstMove2SquaresBecomesEnPassantBlackPieceCanTakePiece(){
+        //Arrange
+        Board board = Board.empty();
+        Piece whitePawn = new Pawn(PlayerColour.WHITE);
+        Piece blackPawn = new Pawn(PlayerColour.BLACK);
+        Coordinates whitePawnFromCoords = new Coordinates(6, 1);
+        Coordinates whitePawnToCoords = new Coordinates(4, 1);
+
+        Coordinates blackPawnCoords = new Coordinates(4,2);
+        board.placePiece(blackPawnCoords, blackPawn);
+
+        board.placePiece(whitePawnFromCoords, whitePawn);
+        board.placePiece(whitePawnToCoords, whitePawn);
+
+        //Act
+        List<Move> moves = blackPawn.getAllowedMoves(blackPawnCoords, board);
+
+        //Assert
+        assertThat(moves).contains(new Move(blackPawnCoords, blackPawnCoords.plus(1,0)));
+        assertThat(moves).contains(new Move(blackPawnCoords, blackPawnCoords.plus(1,-1)));
+    }
 }

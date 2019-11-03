@@ -5,6 +5,7 @@ import training.chessington.model.pieces.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Game {
     public static final int SIZE = 8;
     private final Board board;

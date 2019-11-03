@@ -2,6 +2,8 @@ package training.chessington.model;
 
 import training.chessington.model.pieces.*;
 
+import static training.chessington.model.pieces.Piece.PieceType.PAWN;
+
 public class Board {
 
     private Piece[][] board = new Piece[8][8];
@@ -47,8 +49,20 @@ public class Board {
     }
 
     public void move(Coordinates from, Coordinates to) {
+        Piece selectedPiece = this.get(from);
+        if (selectedPiece.getType() == PAWN && isEnpassantMove(from, to)) {
+            board[from.getRow()][to.getCol()] = null;
+        }
         board[to.getRow()][to.getCol()] = board[from.getRow()][from.getCol()];
         board[from.getRow()][from.getCol()] = null;
+        selectedPiece.setPreviousPosition(from);
+    }
+
+    private boolean isEnpassantMove(Coordinates from, Coordinates to) {
+        if(from.getCol()!= to.getCol() && this.get(to) == null){
+            return true;
+        }
+        return false;
     }
 
     public void placePiece(Coordinates coords, Piece piece) {
