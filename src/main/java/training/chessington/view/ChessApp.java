@@ -61,6 +61,8 @@ public class ChessApp extends Parent {
         resetHighlighting();
         validMoveSquares.clear();
         selectedSquare = null;
+        game.getBoard().calculateAllPossibleMoves();
+
 
         if (game.isEnded()) {
             showResult(game.getResult());

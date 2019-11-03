@@ -57,6 +57,7 @@ public class Game {
         }
 
         board.move(from, to);
+        piece.setPreviousPosition(from);
         nextPlayer = nextPlayer == PlayerColour.WHITE ? PlayerColour.BLACK : PlayerColour.WHITE;
     }
 
@@ -66,5 +67,9 @@ public class Game {
 
     public String getResult() {
         return null;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

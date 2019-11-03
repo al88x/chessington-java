@@ -17,4 +17,5 @@ public interface Piece {
     Coordinates getPreviousPosition();
     void setPreviousPosition(Coordinates from);
     List<Move> getAllowedMoves(Coordinates from, Board board);
+    Coordinates getCurrentPosition();
 }

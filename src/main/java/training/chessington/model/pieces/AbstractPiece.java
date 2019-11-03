@@ -18,6 +18,7 @@ public abstract class AbstractPiece implements Piece {
     protected List<Direction> availableDirections;
     protected final boolean limitedToOneSquareMove;
     protected Coordinates previousPosition;
+    protected Coordinates currentPosition;
 
     protected AbstractPiece(Piece.PieceType type, PlayerColour colour, boolean limitedToOneSquareMove) {
         this.type = type;
@@ -27,6 +28,7 @@ public abstract class AbstractPiece implements Piece {
     }
 
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
+        currentPosition = from;
         List<Move> allowedMoves = new ArrayList<>();
         boolean moveOneSquare;
         for (Direction direction : availableDirections) {
@@ -70,5 +72,10 @@ public abstract class AbstractPiece implements Piece {
     @Override
     public void setPreviousPosition(Coordinates from) {
         this.previousPosition = from;
+    }
+
+    @Override
+    public Coordinates getCurrentPosition() {
+        return this.currentPosition;
     }
 }

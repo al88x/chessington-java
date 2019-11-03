@@ -204,4 +204,6 @@ public class KnightTest {
         assertThat(moves).contains(new Move(coords, coords.plus(-1, 2)));
     }
 
+
+
 }

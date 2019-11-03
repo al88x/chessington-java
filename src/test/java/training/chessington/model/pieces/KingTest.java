@@ -507,6 +507,28 @@ public class KingTest {
         assertThat(moves).doesNotContain(new Move(coords, coords.plus(3, 3)));
     }
 
+    @Test
+    public void whiteKingIsCheckByBlackQueen() {
+
+        // Arrange
+        Board board = Board.empty();
+        King blackKing = new King(BLACK);
+        board.placePiece(new Coordinates(1,1), blackKing);
+        King king = new King(WHITE);
+        Coordinates coords = new Coordinates(7, 4);
+        board.placePiece(coords, king);
+        Piece queen = new Queen(BLACK);
+        Coordinates queenCoords = new Coordinates(4, 5);
+        board.placePiece(queenCoords, queen);
+        board.move(queenCoords, new Coordinates(4,4));
+        board.calculateAllPossibleMoves();
+
+        // Act
+        boolean check = king.isCheck();
+
+        // Assert
+        assertThat(check).isEqualTo(true);
+    }
 
 
 }

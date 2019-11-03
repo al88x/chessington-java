@@ -16,6 +16,7 @@ public class Knight extends AbstractPiece {
 
     private Integer[][] possibleMoves;
 
+
     public Knight(PlayerColour colour) {
         super(PieceType.KNIGHT, colour, true);
         possibleMoves = new Integer[][]{{-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}};
